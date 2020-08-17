@@ -12,7 +12,7 @@
                 <div class="title-row">
                     <div class="col-100">
                         <div class="title--line-height">
-                            Sintomas
+                            Step
                         </div>
                     </div>
                 </div>
@@ -21,13 +21,13 @@
 
         <div class="page-content">
             <div class="block block-title-medium">
-                {{#js_if "this.$route.params.age == 'adult'"}}
+                {{#js_if "this.$route.params.step == 'adult'"}}
                     Quais sintomas está sentindo?
                 {{else}}
                     Quais sintomas ela está sentindo?
                 {{/js_if}}
             </div>
-            <div class="list no-hairlines" id="infectedQuiz">
+            <div class="list no-hairlines" id="quiz">
                 <ul>
                     <!-- Fever -->
                     <li>
@@ -199,44 +199,8 @@
                     </li>
                 </ul>
 
-                <div
-                    class="block
-                        display-flex
-                        flex-direction-column
-                        justify-content-center
-                        align-content-space-around"
-                >
-                    <a href="/symptoms/" class="card">
-                        <div
-                            class="card-content
-                                card-content-padding
-                                display-flex
-                                flex-direction-column
-                                justify-content-center
-                                align-content-space-around"
-                        >
-                            <img src="static/images/doubt.svg" class=" card__icon">
-                            
-                        </div>
-                        <div
-                            class="card-footer
-                                text-align-center
-                                justify-content-center
-                                card-footer--position-initial"
-                            >
-                                Você tem dúvidas sobre os sintomas?
-                        </div>
-                    </a>
-
-                    <a
-                        class="button
-                            button-fill
-                            button-large
-                            margin-top"
-                        @click="handleClick"
-                    >
-                        Continuar
-                    </a>
+                <div class="block display-flex flex-direction-column justify-content-center align-content-space-around">
+                    <a class="button button-fill button-large margin-top" @click="handleClick">Continuar</a>
                 </div>
             </div>
         </div>
@@ -253,7 +217,7 @@
 
         methods: {
             handleClick: function() {
-                let symptoms = document.querySelectorAll("#infectedQuiz input[type='checkbox']:checked");
+                let symptoms = document.querySelectorAll("#quiz input[type='checkbox']:checked");
                 if (symptoms.length) {
                     symptoms.forEach(item => {
                         this.symptoms.push(item.value);
