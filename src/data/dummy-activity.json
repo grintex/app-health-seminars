@@ -1,0 +1,98 @@
+[
+  {
+    "step": 0,
+    "type": "info",
+    "value": "Atividade XYZ",
+    "desc": "Descrição completa da atividade"
+  },
+  {
+    "step": 1,
+    "type": "info",
+    "value": "Passo 1",
+    "desc": "Enunciado geral do passo 1"
+  },
+  {
+    "step": 1,
+    "type": "model",
+    "value": "https://teste.com.br/modelo.obj",
+    "desc": ""
+  },
+  {
+    "step": 1,
+    "type": "marker",
+    "value": "https://teste.com.br/marker1.pngj",
+    "desc": ""
+  },
+  {
+    "step": 1,
+    "type": "op",
+    "value": "a",
+    "desc": "Opção 1"
+  },
+  {
+    "step": 1,
+    "type": "op",
+    "value": "b",
+    "desc": "Opção 2"
+  },
+  {
+    "step": 1,
+    "type": "op",
+    "value": "c",
+    "desc": "Opção 3"
+  },
+  {
+    "step": 2,
+    "type": "info",
+    "value": "Passo 2",
+    "desc": "Descrição do enunciado do passo 2"
+  },
+  {
+    "step": 2,
+    "type": "model",
+    "value": "https://teste.com.br/modelo2.obj",
+    "desc": ""
+  },
+  {
+    "step": 2,
+    "type": "marker",
+    "value": "https://teste.com.br/marker2.pngj",
+    "desc": ""
+  },
+  {
+    "step": 2,
+    "type": "op",
+    "value": "a",
+    "desc": "Opção 1"
+  },
+  {
+    "step": 2,
+    "type": "op",
+    "value": "b",
+    "desc": "Opção 2"
+  },
+  {
+    "step": 2,
+    "type": "op",
+    "value": "c",
+    "desc": "Opção 3"
+  },
+  {
+    "step": 2,
+    "type": "op",
+    "value": "d",
+    "desc": "Opção 4"
+  },
+  {
+    "step": "F",
+    "type": "result",
+    "value": "1-a:2-b",
+    "desc": "Informação de resultado com escolhas step1-A e step2-B"
+  },
+  {
+    "step": "F",
+    "type": "result",
+    "value": "1-a-b:2-a-b-c",
+    "desc": "Informação de resultado com escolhas step1-B e step2-A-B-C"
+  }
+]

@@ -22,8 +22,9 @@
         <div class="page-content">
             <div class="block block-title-medium">
                 <p>Activity: {{ activity }}</p>
-                <p>info: {{ info }}</p>
                 <p>Step: {{ step }}</p>
+                <p>title: {{ activity_title }}</p>
+                <p>description: {{ activity_description }}</p>
                 <p>options: {{ options }}</p>
             </div>
             <div class="list no-hairlines" id="quiz">
@@ -52,25 +53,76 @@
 </template>
 
 <script>
+    function isValidStep(step) {
+        return parseInt(step) >= 0;
+    }
+
     export default {
         data: function() {
             var app = this.$app;
-            var active = app.data.active;
+            var step = this.$route.params.step;
+            var activity = this.$route.params.activity;
+            var data = {
+                step: step,
+                activity: activity,
+                title: '?',
+                description: '?',
+                value: '?',
+                desc: '?',
+                options: [],
+                results: {}
+            };
 
-            return {
-                activity: active.activity,
-                'step': active.step,
-                'info': 'this is a info',
-                'options': [{ value: 'a', desc: 'desc a' }]
+            if(app.data.activities[activity] == undefined) {
+                console.error('Unknown activity with name: ' + activity);
             }
+
+            if(!isValidStep(step)) {
+                console.error('invalid step: ' + step);
+            }
+
+            var specs = app.data.activities[activity];
+
+            specs.forEach(item => {
+                if(!isValidStep(item.step)) {
+                    console.error('invalid step: ' + item.step);
+                    return;
+                }
+
+                if(item.type == 'info' && item.step == 0) {
+                    // Convention that item in step 0 describes the whole thing
+                    data.activity_title = item.value;
+                    data.activity_description = item.desc;
+                }
+
+                if(item.step != step) {
+                    // this entry is not useful right now
+                    return;
+                }
+
+                if(item.type == 'op') {
+                    data.options.push(item);
+
+                } else if(item.type == 'result') {
+                    data.results[item.value] = item.desc;
+
+                } else if(item.type == 'info') {
+                    data.value = item.value;
+                    data.desc = item.desc;
+
+                } else {
+                    console.warn('Entry type not handled: ', item.type);
+                }
+            });
+
+            return data;
         },
 
         methods: {
             continue: function() {
                 var app = this.$app;
-                var active = app.data.active;
-                var step = active.step;
-                var activity = active.activity;
+                var step = this.$route.params.step;
+                var activity = this.$route.params.activity;
                 
                 let selections = document.querySelectorAll("#quiz input[type='checkbox']:checked");
 
@@ -82,7 +134,7 @@
                     selections.forEach(item => {
                         active.answers[step].push(item.value);
                     });
-                    active.step++;
+                    step++;
                     this.$router.navigate("/viewer/" + activity + "/" + step);
                 } else {
                     this.$app.dialog.alert("Selecione ao menos uma das opções anteriores.", "Coronavírus Chapecó");
@@ -92,7 +144,18 @@
 
         on: {
             pageInit: function() {
-                console.log('init');
+                var app = this.$app;
+                var step = this.$route.params.step;
+                var activity = this.$route.params.activity;
+
+                if(app.data.activities[activity] == undefined) {
+                    console.error('Unknown activity with name "' + activity + '"', app.data.activities);
+                }
+
+                if(step == 0) {
+                    app.data.answers = [];
+                    console.log('Starting activity: ', activity);
+                }
             }
         }
     };

@@ -14,6 +14,9 @@ import routes from './routes.js';
 // Import main app component
 import App from '../app.f7.html';
 
+// Tests
+import DummyActivity from '../data/dummy-activity.json';
+
 var app = new Framework7({
     root: '#app', // App root element
     component: App, // App main component
@@ -39,11 +42,7 @@ var app = new Framework7({
                 ]
             }
         },
-        active: {
-            activity: 'test1',
-            step: 0,
-            answers: []
-        },
+        answers: [],
         score: 0,
     },
 
@@ -73,6 +72,8 @@ var app = new Framework7({
                     console.log('Saving beforeinstallprompt: ', e);
                 });
             }
+
+            f7.data.activities['test'] = DummyActivity;
         },
     },
 });
