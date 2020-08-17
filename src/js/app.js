@@ -29,6 +29,24 @@ var app = new Framework7({
         path: '/service-worker.js',
     },
 
+    // App data
+    data: {
+        activities: {
+            'test1': {
+                entries: [
+                    { step: 0, type: 'info', value: 'ssdsdds', desc: 'desc something' },
+                    { step: 1, type: 'info', value: 'ssdsdds1', desc: 'desc something1' },
+                ]
+            }
+        },
+        active: {
+            activity: 'test1',
+            step: 0,
+            answers: []
+        },
+        score: 0,
+    },
+
     // Input settings
     input: {
         scrollIntoViewOnFocus: Framework7.device.cordova && !Framework7.device.electron,

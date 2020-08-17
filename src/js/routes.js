@@ -9,7 +9,7 @@ var routes = [
     },
 
     {
-        path: '/viewer/:activity/:step/',
+        path: '/viewer/:activity/:step',
         component: ViewerPage,
         options: {
             context: {
@@ -19,7 +19,7 @@ var routes = [
         },
         on: {
             pageInit: function (event, page) {
-                console.log(page.route.params.age);
+                console.log(page.route.params.activity, page.route.params.step);
             }
         }
     },

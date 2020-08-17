@@ -21,186 +21,30 @@
 
         <div class="page-content">
             <div class="block block-title-medium">
-                {{#js_if "this.$route.params.step == 'adult'"}}
-                    Quais sintomas está sentindo?
-                {{else}}
-                    Quais sintomas ela está sentindo?
-                {{/js_if}}
+                <p>Activity: {{ activity }}</p>
+                <p>info: {{ info }}</p>
+                <p>Step: {{ step }}</p>
+                <p>options: {{ options }}</p>
             </div>
             <div class="list no-hairlines" id="quiz">
                 <ul>
-                    <!-- Fever -->
+                    {{#each options}}
                     <li>
                         <label class="item-checkbox item-content">
-                            <input type="checkbox" name="q1" value="s1" />
+                            <input type="checkbox" name="option" value="{{ value }}" />
                             <i class="icon icon-checkbox"></i>
                             <div class="item-inner">
                                 <div class="item-text quiz__text">
-                                    Febre (medida com um termômetro ou não)
+                                    ({{ value }}) {{ desc }}
                                 </div>
                             </div>
                         </label>
                     </li>
-
-                    <!-- Cough -->
-                    <li>
-                        <label class="item-checkbox item-content">
-                            <input type="checkbox" name="q2" value="s2" />
-                            <i class="icon icon-checkbox"></i>
-                            <div class="item-inner">
-                                <div class="item-text quiz__text">
-                                    Tosse (recente ou agravando)
-                                </div>
-                            </div>
-                        </label>
-                    </li>
-
-                    <!-- Shortness of breath -->
-                    <li>
-                        <label class="item-checkbox item-content">
-                            <input type="checkbox" name="q3" value="s3" />
-                            <i class="icon icon-checkbox"></i>
-                            <div class="item-inner">
-                                <div class="item-text quiz__text">
-                                    Falta de ar (recente ou agravando)
-                                </div>
-                            </div>
-                        </label>
-                    </li>
-
-                    <!-- Fatigue -->
-                    <li>
-                        <label class="item-checkbox item-content">
-                            <input type="checkbox" name="q4" value="s4" />
-                            <i class="icon icon-checkbox"></i>
-                            <div class="item-inner">
-                                <div class="item-text quiz__text">
-                                    Fadiga (cansaço inesperado realizando atividades normais)
-                                </div>
-                            </div>
-                        </label>
-                    </li>
-
-                    <!-- Body ache -->
-                    <li>
-                        <label class="item-checkbox item-content">
-                            <input type="checkbox" name="q5" value="s5" />
-                            <i class="icon icon-checkbox"></i>
-                            <div class="item-inner">
-                                <div class="item-text quiz__text">
-                                    Dores no corpo
-                                </div>
-                            </div>
-                        </label>
-                    </li>
-
-                    <!-- Headache -->
-                    <li>
-                        <label class="item-checkbox item-content">
-                            <input type="checkbox" name="q6" value="s6" />
-                            <i class="icon icon-checkbox"></i>
-                            <div class="item-inner">
-                                <div class="item-text quiz__text">
-                                    Dor de cabeça
-                                </div>
-                            </div>
-                        </label>
-                    </li>
-
-                    <!-- Diarrhea -->
-                    <li>
-                        <label class="item-checkbox item-content">
-                            <input type="checkbox" name="q7" value="s7" />
-                            <i class="icon icon-checkbox"></i>
-                            <div class="item-inner">
-                                <div class="item-text quiz__text">
-                                    Diarreia
-                                </div>
-                            </div>
-                        </label>
-                    </li>
-
-                    <!-- Sore throat -->
-                    <li>
-                        <label class="item-checkbox item-content">
-                            <input type="checkbox" name="q8" value="s8" />
-                            <i class="icon icon-checkbox"></i>
-                            <div class="item-inner">
-                                <div class="item-text quiz__text">
-                                    Dor de garganta
-                                </div>
-                            </div>
-                        </label>
-                    </li>
-
-                    <!-- Loss of smell or taste -->
-                    <li>
-                        <label class="item-checkbox item-content">
-                            <input type="checkbox" name="q9" value="s9" />
-                            <i class="icon icon-checkbox"></i>
-                            <div class="item-inner">
-                                <div class="item-text quiz__text">
-                                    Perda do olfato ou paladar (recente ou piorando)
-                                </div>
-                            </div>
-                        </label>
-                    </li>
-
-                    <!-- Nausea or vomiting -->
-                    <li>
-                        <label class="item-checkbox item-content">
-                            <input type="checkbox" name="q10" value="s10" />
-                            <i class="icon icon-checkbox"></i>
-                            <div class="item-inner">
-                                <div class="item-text quiz__text">
-                                    Náusea ou vômito
-                                </div>
-                            </div>
-                        </label>
-                    </li>
-
-                    <!-- Clogged or runny nose -->
-                    <li>
-                        <label class="item-checkbox item-content">
-                            <input type="checkbox" name="q11" value="s11" />
-                            <i class="icon icon-checkbox"></i>
-                            <div class="item-inner">
-                                <div class="item-text quiz__text">
-                                    Nariz entupido ou escorrendo
-                                </div>
-                            </div>
-                        </label>
-                    </li>
-
-                    <!-- Other symptoms -->
-                    <li>
-                        <label class="item-checkbox item-content">
-                            <input type="checkbox" name="q12" value="s12" />
-                            <i class="icon icon-checkbox"></i>
-                            <div class="item-inner">
-                                <div class="item-text quiz__text">
-                                    Outros sintomas
-                                </div>
-                            </div>
-                        </label>
-                    </li>
-
-                    <!-- No symptoms -->
-                    <li>
-                        <label class="item-checkbox item-content">
-                            <input type="checkbox" name="q13" value="s13" />
-                            <i class="icon icon-checkbox"></i>
-                            <div class="item-inner">
-                                <div class="item-text quiz__text">
-                                    Nenhum sintoma
-                                </div>
-                            </div>
-                        </label>
-                    </li>
+                    {{/each}}
                 </ul>
 
                 <div class="block display-flex flex-direction-column justify-content-center align-content-space-around">
-                    <a class="button button-fill button-large margin-top" @click="handleClick">Continuar</a>
+                    <a class="button button-fill button-large margin-top" @click="continue">Continuar</a>
                 </div>
             </div>
         </div>
@@ -210,28 +54,47 @@
 <script>
     export default {
         data: function() {
+            var app = this.$app;
+            var active = app.data.active;
+
             return {
-                symptoms: [],
+                activity: active.activity,
+                'step': active.step,
+                'info': 'this is a info',
+                'options': [{ value: 'a', desc: 'desc a' }]
             }
         },
 
         methods: {
-            handleClick: function() {
-                let symptoms = document.querySelectorAll("#quiz input[type='checkbox']:checked");
-                if (symptoms.length) {
-                    symptoms.forEach(item => {
-                        this.symptoms.push(item.value);
-                    });
-                    this.$router.navigate("/risk-group-quiz/" +
-                        this.$route.params.age + "/" +
-                        this.symptoms);
-                }
-                else {
-                    this.$app.dialog.alert("Selecione ao menos uma das opções anteriores.", "Coronavírus Chapecó");
+            continue: function() {
+                var app = this.$app;
+                var active = app.data.active;
+                var step = active.step;
+                var activity = active.activity;
+                
+                let selections = document.querySelectorAll("#quiz input[type='checkbox']:checked");
+
+                if(active.answers[step] == undefined) {
+                    active.answers[step] = [];
                 }
 
+                if (selections.length) {
+                    selections.forEach(item => {
+                        active.answers[step].push(item.value);
+                    });
+                    active.step++;
+                    this.$router.navigate("/viewer/" + activity + "/" + step);
+                } else {
+                    this.$app.dialog.alert("Selecione ao menos uma das opções anteriores.", "Coronavírus Chapecó");
+                }
             },
         },
+
+        on: {
+            pageInit: function() {
+                console.log('init');
+            }
+        }
     };
 </script>
 
@@ -241,7 +104,6 @@
     }
 
     .quiz__text {
-        text-transform: uppercase;
         color: #1e2f42;
         font-weight: bold;
     }
