@@ -79,8 +79,31 @@
         return parseInt(step) >= 0;
     }
 
+    function getAnswersHash(answers) {
+        var parts = [];
+        var hash = '';
+
+        // Ignore step == 0 (welcome step)
+        for(var step = 1; step < answers.length; step++) {
+            parts.push(step + '-' + answers[step].join('-'));
+        }
+
+        hash = parts.join(':');
+        return hash;
+    }
+
     function generateFinalTextFromAnswers(specs, answers) {
-        return JSON.stringify(specs.results) + ' -> ' + JSON.stringify(answers);
+        var hash = getAnswersHash(answers);
+
+        if(specs.results[hash] != undefined) {
+            return specs.results[hash];
+        }
+
+        if(specs.results['*'] != undefined) {
+            return specs.results['*'];
+        }
+
+        return 'Não há informações de resultado para as respostas que você escolheu: ' + hash;
     }
 
     function getActivitySpecs(app, activity) {
@@ -147,7 +170,6 @@
                 description: '?',
                 items: [],
                 options: [],
-                results: {},
                 show_welcome: false,
                 show_results: false,
                 results_text: '',
@@ -190,7 +212,7 @@
                 }
 
                 if (selections.length == 0 && step != 0) {
-                    this.$app.dialog.alert("Selecione ao menos uma das opções anteriores.", "Coronavírus Chapecó");
+                    this.$app.dialog.alert("Selecione ao menos uma das opções para continuar.", "Oops");
                     return;
                 }
 
