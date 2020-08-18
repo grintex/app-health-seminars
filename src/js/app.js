@@ -34,15 +34,8 @@ var app = new Framework7({
 
     // App data
     data: {
-        activities: {
-            'test1': {
-                entries: [
-                    { step: 0, type: 'info', value: 'ssdsdds', desc: 'desc something' },
-                    { step: 1, type: 'info', value: 'ssdsdds1', desc: 'desc something1' },
-                ]
-            }
-        },
-        answers: [],
+        activities: {}, // loaded from the API
+        answers: [],    
         score: 0,
     },
 

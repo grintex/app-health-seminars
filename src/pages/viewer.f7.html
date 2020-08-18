@@ -45,7 +45,11 @@
                 </ul>
 
                 <div class="block display-flex flex-direction-column justify-content-center align-content-space-around">
-                    <a class="button button-fill button-large margin-top" @click="continue">Continuar</a>
+                    {{#if show_results}}
+                        <a href="/" class="button button-fill button-large margin-top">Finalizar</a>
+                    {{else}}
+                        <a class="button button-fill button-large margin-top" @click="continue">Continuar</a>
+                    {{/if}}
                 </div>
             </div>
         </div>
@@ -70,7 +74,9 @@
                 value: '?',
                 desc: '?',
                 options: [],
-                results: {}
+                results: {},
+                show_results: false,
+                results_text: '',
             };
 
             if(app.data.activities[activity] == undefined) {
@@ -115,6 +121,12 @@
                 }
             });
 
+            if(step != 0 && data.options.length == 0) {
+                // No more options to choose from, so it's the end.
+                data.show_results = true;
+                data.results_text = 'Something very byg';
+            }
+
             return data;
         },
 
@@ -126,19 +138,21 @@
                 
                 let selections = document.querySelectorAll("#quiz input[type='checkbox']:checked");
 
-                if(active.answers[step] == undefined) {
-                    active.answers[step] = [];
+                if(app.data.answers[step] == undefined) {
+                    app.data.answers[step] = [];
                 }
 
-                if (selections.length) {
-                    selections.forEach(item => {
-                        active.answers[step].push(item.value);
-                    });
-                    step++;
-                    this.$router.navigate("/viewer/" + activity + "/" + step);
-                } else {
+                if (selections.length == 0 && step != 0) {
                     this.$app.dialog.alert("Selecione ao menos uma das opções anteriores.", "Coronavírus Chapecó");
+                    return;
                 }
+
+                selections.forEach(item => {
+                    app.data.answers[step].push(item.value);
+                });
+
+                step++;
+                this.$router.navigate("/viewer/" + activity + "/" + step);
             },
         },
 
