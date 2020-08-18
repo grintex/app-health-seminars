@@ -39,17 +39,19 @@
                     {{#if show_welcome}}
                         <p class="item-text" style="text-align: justify;">{{ description }}</p>
                     {{else}}
-                        <h3>{{ value }}</h3>
-                        <p class="item-text" style="text-align: justify;">{{ desc }}</p>
+                        {{#each items}}
+                            <h3>{{ value }}</h3>
+                            <p class="item-text" style="text-align: justify;">{{ desc }}</p>
+                        {{/each}}
                     {{/if}}
                 </div>
 
-                <div class="list no-hairlines" id="quiz">
+                <div class="list no-hairlines" id="quiz-{{ step }}">
                     <ul>
                         {{#each options}}
                         <li>
                             <label class="item-checkbox item-content">
-                                <input type="checkbox" name="option" value="{{ value }}" />
+                                <input type="checkbox" name="option-{{ value }}" value="{{ value }}" />
                                 <i class="icon icon-checkbox"></i>
                                 <div class="item-inner">
                                     <div class="item-text quiz__text">
@@ -114,8 +116,7 @@
 
             if(data.steps[item.step] == undefined) {
                 data.steps[item.step] = {
-                    value: '',
-                    desc: '',
+                    items: [],
                     options: []
                 }
             }
@@ -124,8 +125,7 @@
                 data.steps[item.step].options.push(item);
 
             } else if(item.type == 'info') {
-                data.steps[item.step].value = item.value;
-                data.steps[item.step].desc = item.desc;
+                data.steps[item.step].items.push(item);
 
             } else {
                 console.warn('Entry type not handled: ', item.type);
@@ -145,8 +145,7 @@
                 activity: activity,
                 title: '?',
                 description: '?',
-                value: '?',
-                desc: '?',
+                items: [],
                 options: [],
                 results: {},
                 show_welcome: false,
@@ -164,8 +163,7 @@
             data.description = specs.description;
 
             if(specs.steps[step]) {
-                data.value = specs.steps[step].value;
-                data.desc = specs.steps[step].desc;
+                data.items = specs.steps[step].items;
                 data.options = specs.steps[step].options;
 
             } else {
@@ -185,7 +183,7 @@
                 var step = this.$route.params.step;
                 var activity = this.$route.params.activity;
                 
-                let selections = document.querySelectorAll("#quiz input[type='checkbox']:checked");
+                let selections = document.querySelectorAll("#quiz-" + step + " input[type='checkbox']:checked");
 
                 if(app.data.answers[step] == undefined) {
                     app.data.answers[step] = [];
