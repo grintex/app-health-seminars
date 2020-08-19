@@ -11,15 +11,6 @@
         <!-- Scrollable page content-->
         <div class="page-content">
             <div class="menu-grid">
-                {{#each activities}}
-                <a href="/viewer/{{id}}/0/" class="menu-grid__item">
-                    <div class="item-inner">
-                        <img src="static/images/{{icon}}" class="menu-grid__icon">
-                        <div class="item-title">{{name}}</div>
-                    </div>
-                </a>
-                {{/each}}
-
                 <a href="/help/" class="menu-grid__item">
                     <div class="item-inner">
                         <img src="static/images/question.svg" class="menu-grid__icon">
@@ -33,6 +24,24 @@
                         <div class="item-title">Sobre o aplicativo</div>
                     </div>
                 </a>
+            </div>
+
+            <div class="block-title">
+                <h3><i class="f7-icons">archivebox</i> Casos disponíveis</h3>
+                <p class="item-text">
+                    Abaixo estão listados os casos criados pelos grupos.
+                </p>
+            </div>
+
+            <div class="menu-grid">
+                {{#each activities}}
+                <a href="/viewer/{{id}}/0/" class="menu-grid__item">
+                    <div class="item-inner">
+                        <img src="static/images/{{icon}}" class="menu-grid__icon">
+                        <div class="item-title">{{name}}</div>
+                    </div>
+                </a>
+                {{/each}}
             </div>
 
             <div class="list media-list">

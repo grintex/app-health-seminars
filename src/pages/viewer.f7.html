@@ -38,7 +38,7 @@
                         {{#each items}}
                             {{#js_if "this.type == 'image'"}}
                                 <img src="{{value}}" alt="icon" style="width:100%; height:auto;" />
-                                {{desc}}
+                                <em>{{desc}}</em>
                             {{/js_if}}
 
                             {{#js_if "this.type == 'video'"}}
@@ -46,7 +46,7 @@
                                     <div class="reponsive reponsive--16x9">
                                         <iframe class="reponsive__item" src="{{value}}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                                     </div>
-                                    {{desc}}
+                                    <em>{{desc}}</em>
                                 </div>
                             {{/js_if}}
 
