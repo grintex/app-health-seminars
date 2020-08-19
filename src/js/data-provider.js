@@ -7,7 +7,7 @@ import Framework7 from 'framework7/framework7.esm.bundle.js';
  * @license MIT
  */
 var DataProvider = {
-    source_url: 'http://app-seminarios-saude.api.uffs.cc/v0/activities',
+    source_url: 'https://app-seminarios-saude.api.uffs.cc/v0/activities',
     f7: null,
 
     sync: function() {
