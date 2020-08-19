@@ -7,12 +7,12 @@ import 'framework7/css/framework7.bundle.css';
 // Import Icons and App Custom Styles
 import '../css/icons.css';
 import '../css/app.css';
-// Import Cordova APIs
+
+// Main components
 import cordovaApp from './cordova-app.js';
-// Import Routes
 import routes from './routes.js';
-// Import main app component
 import App from '../app.f7.html';
+import DataProvider from './data-provider.js';
 
 // Tests
 import DummyActivity from '../data/dummy-activity.json';
@@ -52,21 +52,14 @@ var app = new Framework7({
     on: {
         init: function() {
             var f7 = this;
+            
             if (f7.device.cordova) {
                 // Init cordova APIs (see cordova-app.js)
                 cordovaApp.init(f7);
-            } else {
-                // Save context to allow 'Add to home screen'
-                f7.deferredInstallPrompt = null;
-
-                window.addEventListener('beforeinstallprompt', function(e) {
-                    // Stash the event so it can be triggered later.
-                    f7.deferredInstallPrompt = e;
-                    console.log('Saving beforeinstallprompt: ', e);
-                });
             }
 
-            f7.data.activities['test'] = DummyActivity;
+            DataProvider.init(f7);
+            DataProvider.sync();
         },
     },
 });

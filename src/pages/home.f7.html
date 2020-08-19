@@ -4,39 +4,36 @@
             <div class="navbar-bg"></div>
             <div class="navbar-inner">
                 <img src="static/images/logo/icon.svg" class="navbar-icon">
-                <div class="title"> Coronavírus Chapecó - SC</div>
+                <div class="title">Seminário Integrador</div>
             </div>
         </div>
 
         <!-- Scrollable page content-->
         <div class="page-content">
             <div class="menu-grid">
-                <a href="/viewer/test/0/" class="menu-grid__item">
+                {{#each activities}}
+                <a href="/viewer/{{id}}/0/" class="menu-grid__item">
                     <div class="item-inner">
-                        <img src="static/images/question.svg" class="menu-grid__icon">
-                        <div class="item-title">Estou com COVID-19?</div>
+                        <img src="static/images/{{icon}}" class="menu-grid__icon">
+                        <div class="item-title">{{name}}</div>
+                    </div>
+                </a>
+                {{/each}}
+
+                <a href="/about/" class="menu-grid__item">
+                    <div class="item-inner">
+                        <img src="static/images/information.svg" class="menu-grid__icon">
+                        <div class="item-title">Sobre o aplicativo</div>
                     </div>
                 </a>
             </div>
 
-            <div class="menu-grid">
-                {{#if installAd }}
-                <a href="#" @click="install" class="menu-grid__item small" id="link-install-app">
+            <div class="list media-list">
+                <span class="item-content">
                     <div class="item-inner">
-                        <i class="material-icons">get_app</i>
-                        <div class="item-title">Instalar / adicionar à tela inicial</div>
+                        <div class="item-after"><a class="button button-fill button-large margin-top" id="sync-btn" @click="sync">Atualizar</a></div>
                     </div>
-                </a>
-                {{/if}}
-
-                {{#if shareAd}}
-                <a href="#" @click="share" class="menu-grid__item small">
-                    <div class="item-inner">
-                        <i class="material-icons">share</i>
-                        <div class="item-title">Compartilhe esse aplicativo</div>
-                    </div>
-                </a>
-                {{/if}}
+                </span>
             </div>
         </div>
     </div>
@@ -47,59 +44,41 @@
 
     export default {
         data: function() {
-            return {
-                appShareURL: 'https://uffs.cc/app-covid-chapeco',
-                installAd: function() {
-                    return !window.matchMedia('(display-mode: standalone)').matches && IsEnabled.installAd;
-                },
-                shareAd: IsEnabled.shareAd
+            var app = this.$app;
+            var data = {
+                'activities': []
+            };
+
+            console.log(app.data);
+
+            for(var id in app.data.activities) {
+                data.activities.push({
+                    id: id,
+                    name: app.data.activities[id][0].value,
+                    icon: app.data.activities[id][0].icon || 'question.svg',
+                });
             }
+
+            console.log(data);
+
+            return data;
         },
 
         on: {
             pageInit: function(e, page) {
                 var app = this.$app;
-                var link = document.getElementById('link-install-app');
-                
-                if(!link) {
-                    return;
-                }
+                var router = this.$router;
 
-                window.addEventListener('appinstalled', function(evt) {
-                    app.toast.create({
-                        text: 'Pronto! Adicionado à tela inicial.',
-                        closeTimeout: 3000,
-                    }).open();
-
-                    link.style.display = 'none';
+                app.on('syncDone', function(data) {
+                    router.navigate('/?' + Math.random());
                 });
             }
         },
 
         methods: {
-            install: function() {
+            sync: function() {
                 var app = this.$app;
-                var deferredPrompt = app.deferredInstallPrompt;
-
-                if(!deferredPrompt) {
-                    app.toast.create({
-                        text: 'Não foi possível adicionar à tela inicial.',
-                        closeTimeout: 2000,
-                    }).open();
-                    return;
-                }
-
-                // Show the install prompt
-                deferredPrompt.prompt();
-
-                // Wait for the user to respond to the prompt
-                deferredPrompt.userChoice.then(function(choiceResult) {
-                    if (choiceResult.outcome === 'accepted') {
-                        console.log('User accepted the install prompt');
-                    } else {
-                        console.log('User dismissed the install prompt');
-                    }
-                });
+                app.dataProvider.sync();
             },
         }
     }
