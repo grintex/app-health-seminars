@@ -19,6 +19,25 @@
   },
   {
     "step": 1,
+    "type": "image",
+    "value": "https://images.unsplash.com/photo-1593642634443-44adaa06623a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2125&q=80",
+    "desc": "Enunciado geral do passo 1 segunda coisa"
+  },
+  {
+    "step": 1,
+    "type": "media",
+    "value": "Algo",
+    "desc": "Alguma coisa",
+    "icon": "aid.svg"
+  },
+  {
+    "step": 1,
+    "type": "video",
+    "value": "https://www.youtube.com/embed/aEZY2n5wkks",
+    "desc": "Alguma coisa"
+  },
+  {
+    "step": 1,
     "type": "model",
     "value": "https://teste.com.br/modelo.obj",
     "desc": ""

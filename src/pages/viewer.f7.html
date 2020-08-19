@@ -36,8 +36,41 @@
                         <p class="item-text" style="text-align: justify;">{{ description }}</p>
                     {{else}}
                         {{#each items}}
-                            <h3>{{ value }}</h3>
-                            <p class="item-text" style="text-align: justify;">{{ desc }}</p>
+                            {{#js_if "this.type == 'image'"}}
+                                <img src="{{value}}" alt="icon" style="width:100%; height:auto;" /></a>
+                            {{/js_if}}
+
+                            {{#js_if "this.type == 'video'"}}
+                                <div class="item-content">
+                                    <div class="reponsive reponsive--16x9">
+                                        <iframe class="reponsive__item" src="{{value}}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                    </div>
+                                    {{desc}}
+                                </div>
+                            {{/js_if}}
+
+                            {{#js_if "this.type == 'media'"}}
+                                <div class="list about-list media-list">
+                                    <ul>
+                                        <li>
+                                            <div class="item-content">
+                                                <div class="item-media">
+                                                    <img src="static/images/{{icon}}" alt="icon" height="50">
+                                                </div>
+                                                <div class="item-inner">
+                                                    <div class="item-title">{{value}}</div>
+                                                    <div class="item-text">{{desc}}</div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            {{/js_if}}
+
+                            {{#js_if "this.type == 'info'"}}
+                                <h3>{{ value }}</h3>
+                                <p class="item-text" style="text-align: justify;">{{ desc }}</p>
+                            {{/js_if}}
                         {{/each}}
                     {{/if}}
                 </div>
@@ -141,11 +174,8 @@
             if(item.type == 'op') {
                 data.steps[item.step].options.push(item);
 
-            } else if(item.type == 'info') {
-                data.steps[item.step].items.push(item);
-
             } else {
-                console.warn('Entry type not handled: ', item.type);
+                data.steps[item.step].items.push(item);
             }
         });
 
@@ -258,5 +288,23 @@
 
     .card-footer--position-initial {
         position: initial;
+    }
+
+    .reponsive {
+        position: relative;
+    }
+
+    .reponsive--16x9 {
+        padding-top: 56.25%
+            /* 9/16 */
+        ;
+    }
+
+    .reponsive__item {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
     }
 </style>
