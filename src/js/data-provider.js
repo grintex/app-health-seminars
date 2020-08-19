@@ -7,11 +7,16 @@ import Framework7 from 'framework7/framework7.esm.bundle.js';
  * @license MIT
  */
 var DataProvider = {
-    source_url: 'http://dev.local.com/app-health-seminars-api/public/v0/activities',
+    source_url: '',
     f7: null,
 
     sync: function() {
         var app = this.f7;
+
+        if(!this.source_url) {
+            console.error('Unable to sync because no API endpoint has been informed yet.');
+            return;
+        }
 
         app.preloader.show();
 
