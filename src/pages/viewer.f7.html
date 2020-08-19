@@ -37,7 +37,8 @@
                     {{else}}
                         {{#each items}}
                             {{#js_if "this.type == 'image'"}}
-                                <img src="{{value}}" alt="icon" style="width:100%; height:auto;" /></a>
+                                <img src="{{value}}" alt="icon" style="width:100%; height:auto;" />
+                                {{desc}}
                             {{/js_if}}
 
                             {{#js_if "this.type == 'video'"}}
