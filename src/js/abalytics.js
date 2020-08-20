@@ -31,6 +31,20 @@ var Abalytics = {
         });
       },
 
+    injectAdditionalData: function(data) {
+        var storedData = Abalytics.getStoredData();
+
+        if(!storedData) {
+            return;
+        }
+
+        for(var key in storedData) {
+            data[key] = storedData[key];
+        }
+
+        return data;
+    },
+
     track: function(type, label, data) {
         var app = Abalytics.f7;
 
@@ -44,11 +58,13 @@ var Abalytics = {
             return;
         }
 
+        Abalytics.injectAdditionalData(data);
+
         console.log('[Abalytics] ' + type + ' | ' + label + ': ', data);
         gtag(type, label, data);
 
         var payload = {
-            uuid: Abalytics.getUUI() + (app.device.cordova ? '-c' : '-w'),
+            uuid: Abalytics.getUUI() + '-' + (app.device.cordova ? 'c' : 'w'),
             type: type,
             label: label,
             data: data
@@ -59,7 +75,7 @@ var Abalytics = {
         });
     },
 
-    getUUI: function () {
+    getStoredData: function () {
         var app = Abalytics.f7;
         var data = app.form.getFormData(Abalytics.STORAGE_KEY);
 
@@ -72,6 +88,22 @@ var Abalytics = {
             app.form.storeFormData(Abalytics.STORAGE_KEY, data);
             console.debug('[Abalytics] uuid created: ', data.uuid);
         }
+
+        return data;
+    },
+
+    storeData: function (key, value) {
+        var app = Abalytics.f7;
+        var data = Abalytics.getStoredData();
+
+        data[key] = value;
+        app.form.storeFormData(Abalytics.STORAGE_KEY, data);
+
+        console.debug('[Abalytics] data stored: ', key, value, data);
+    },    
+
+    getUUI: function () {
+        var data = Abalytics.getStoredData();
 
         Abalytics.uuid = data.uuid;
         console.debug('[Abalytics] uuid used: ', Abalytics.uuid);

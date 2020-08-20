@@ -1,0 +1,87 @@
+<template>
+    <div class="page" data-name="settings">
+        <div class="navbar">
+            <div class="navbar-bg"></div>
+            <div class="navbar-inner sliding">
+                <div class="left">
+                    <a href="#" class="link back">
+                        <i class="icon icon-back"></i>
+                        <span class="if-not-md">Back</span>
+                    </a>
+                </div>
+                <div class="title">Configurações</div>
+            </div>
+        </div>
+        <div class="page-content">
+            <div class="list about-list media-list">
+                <ul>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-media">
+                                <img src="static/images/cog.svg" alt="icon" height="50">
+                            </div>
+                            <div class="item-inner">
+                                <div class="item-title">
+                                    Configurações
+                                </div>
+                                <div class="item-text">
+                                    Ajustes para que suas atividades sejam registradas.
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="list no-hairlines-md">
+                <ul>
+                  <li class="item-content item-input item-input-with-info">
+                    <div class="item-inner">
+                      <div class="item-title item-label">Nome</div>
+                      <div class="item-input-wrap">
+                        <input type="text" name="user" id="settings-user" placeholder="Ex. Fulano da Silva" required validate>
+                        <span class="input-clear-button"></span>
+                        <div class="item-input-info">Sem essa informação, você <strong>não</strong> será avaliado.</div>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+            </div>
+
+            <div class="list media-list">
+                <span class="item-content">
+                    <div class="item-inner">
+                        <div class="item-after"><a class="button button-fill button-large margin-top" id="sync-btn" @click="save">Salvar</a></div>
+                    </div>
+                </span>
+            </div>
+
+        </div>
+    </div>
+</template>
+<script>
+    import $$ from 'dom7';
+    import Abalytics from '../js/abalytics.js';
+
+    export default {
+        methods: {
+            save: function() {
+                var app = this.$app;
+                var user = $$('#settings-user').val();
+console.log(user);
+
+                if(!user) {
+                    this.$app.dialog.alert("Infelizmente seu nome não pode ser vazio. Dê seu ar da graça, vai?", "Oops!");
+                    return;
+                }
+
+                Abalytics.storeData('user', user);
+
+                app.toast.create({
+                    text: 'Ok, dados salvos!',
+                    closeTimeout: 2000,
+                }).open();
+            }
+        }
+    };
+</script>
