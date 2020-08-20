@@ -13,6 +13,7 @@ import cordovaApp from './cordova-app.js';
 import routes from './routes.js';
 import App from '../app.f7.html';
 import DataProvider from './data-provider.js';
+import Abalytics from './abalytics.js';
 
 // Tests
 import DummyActivity from '../data/dummy-activity.json';
@@ -58,6 +59,7 @@ var app = new Framework7({
                 cordovaApp.init(f7);
             }
 
+            Abalytics.init(f7);
             DataProvider.init(f7);
             DataProvider.sync();
         },
