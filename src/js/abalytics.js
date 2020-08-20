@@ -8,7 +8,7 @@ import { v4 as uuidv4 } from 'uuid';
  * @license MIT
  */
 var Abalytics = {
-    STORAGE_KEY: 'abalytocs-data-v1',
+    STORAGE_KEY: 'abalytics-data-v1',
     API_URL: 'https://app-seminarios-saude.api.uffs.cc/v0/analytics',
     f7: null,
     uuid: '',

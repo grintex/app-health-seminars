@@ -103,6 +103,8 @@
 </template>
 
 <script>
+    import Abalytics from '../js/abalytics.js';
+
     function isValidStep(step) {
         return parseInt(step) >= 0;
     }
@@ -229,6 +231,13 @@
                 var app = this.$app;
                 var step = this.$route.params.step;
                 var activity = this.$route.params.activity;
+                var data = Abalytics.getStoredData();
+
+                if(!data['user']) {
+                    this.$app.dialog.alert("Precisamos saber o seu nome antes de começar.", "Quase lá");
+                    this.$router.navigate('/settings/');
+                    return;
+                }
                 
                 let selections = document.querySelectorAll("#quiz-" + step + " input[type='checkbox']:checked");
 
