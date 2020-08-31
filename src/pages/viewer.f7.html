@@ -191,7 +191,7 @@
         return 'Não há informações de resultado para as respostas que você escolheu: ' + hash;
     }
 
-    function getActivityPassowrd(app, activity) {
+    function getActivityPassword(app, activity) {
         if(app.data.activities[activity] == undefined) {
             return null;
         }
@@ -275,7 +275,7 @@
                 console.error('invalid specs: ', specs);
             }
 
-            var activityPassword = getActivityPassowrd(app, activity);
+            var activityPassword = getActivityPassword(app, activity);
 
             if(activityPassword) {
                 var storedData = app.form.getFormData('password');
@@ -306,7 +306,7 @@
                 var app = this.$app;
                 var activity = this.$route.params.activity;
                 var informedPassword = $$('#viewer-password').val();
-                var activityPassword = getActivityPassowrd(app, activity);
+                var activityPassword = getActivityPassword(app, activity);
 
                 if(informedPassword != activityPassword) {
                     this.$app.dialog.alert("A senha informada é incorreta. Tente outra senha.", "Nops");
