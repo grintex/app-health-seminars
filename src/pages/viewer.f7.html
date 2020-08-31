@@ -81,7 +81,7 @@
                         {{#each options}}
                         <li>
                             <label class="item-checkbox item-content">
-                                <input type="checkbox" name="option-{{ value }}" value="{{ value }}" />
+                                <input type="checkbox" name="option-{{ value }}" value="{{ value }}" data-next-step="{{ next_step }}" />
                                 <i class="icon icon-checkbox"></i>
                                 <div class="item-inner">
                                     <div class="item-text quiz__text">
@@ -346,12 +346,27 @@
                     return;
                 }
 
-                selections.forEach(item => {
-                    app.data.answers[step].push(item.value);
-                });
+                try {
+                    var nextStep = -1;
 
-                step++;
-                this.$router.navigate("/viewer/" + activity + "/" + step);
+                    selections.forEach(item => {
+                        app.data.answers[step].push(item.value);
+
+                        if(item.dataset.nextStep) {
+                            nextStep = parseInt(item.dataset.nextStep);
+                        }
+                    });
+
+                    if(nextStep > 0) {
+                        step = nextStep;
+                    } else {
+                        step++;
+                    }
+                    
+                    this.$router.navigate("/viewer/" + activity + "/" + step);
+                } catch(error) {
+                    this.$app.dialog.alert("O próximo passo informado para essa atividade não é valido. Precisa ser um número inteiro maior que zero.", "Deu ruim");
+                }
             },
         },
 
