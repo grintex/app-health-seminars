@@ -42,12 +42,13 @@
 
             <div class="menu-grid">
                 {{#each activities}}
-                <a href="/viewer/{{id}}/0/" class="menu-grid__item">
-                    <div class="item-inner">
-                        <img src="static/images/{{icon}}" class="menu-grid__icon">
-                        <div class="item-title">{{name}}</div>
-                    </div>
-                </a>
+                    <a href="/viewer/{{id}}/0/" class="menu-grid__item">
+                        <div class="item-inner">
+                            <img src="static/images/{{icon}}" class="menu-grid__icon">
+                            <div class="item-title">{{name}}</div>
+                        </div>
+                        <i class="icon f7-icons color-red" style="font-size: 3em;">{{password}}</i>
+                    </a>
                 {{/each}}
             </div>
 
@@ -79,6 +80,7 @@
                     id: id,
                     name: app.data.activities[id][0].value,
                     icon: app.data.activities[id][0].icon || 'question.svg',
+                    password: app.data.activities[id][0].password ? 'lock_circle_fill' : ''
                 });
             }
 
@@ -116,12 +118,21 @@
 }
 
 .menu-grid__item {
+    position: relative;
     background-color: #f6f6f6;
     text-align: center;
     text-transform: uppercase;
     color: #1e2f42;
     font-weight: bold;
     padding: 10px;
+}
+
+.menu-grid__item i {
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-size: 1em; 
+    color: red;
 }
 
 .menu-grid__item.small {
@@ -143,4 +154,5 @@
 .menu-grid__icon {
     height: 55px;
 }
+
 </style>

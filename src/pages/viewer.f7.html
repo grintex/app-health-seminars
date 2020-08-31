@@ -93,9 +93,63 @@
                         {{/each}}
                     </ul>
 
-                    <div class="block display-flex flex-direction-column justify-content-center align-content-space-around">
-                        <a class="button button-fill button-large margin-top" @click="continue">Continuar</a>
-                    </div>
+                    {{#if password_ready}}
+                        <div class="list about-list media-list">
+                            <ul>
+                                <li>
+                                    <div class="item-content">
+                                        <div class="item-media">
+                                            <i class="icon f7-icons color-green" style="font-size: 3em;">lock_shield_fill</i>
+                                        </div>
+                                        <div class="item-inner">
+                                            <div class="item-title">Atividade liberada</div>
+                                            <div class="item-text">Senha foi usada para liberar essa atividade.</div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    {{/if}}
+
+                    {{#if must_input_password}}
+                        <div class="list about-list media-list">
+                            <ul>
+                                <li>
+                                    <div class="item-content">
+                                        <div class="item-media">
+                                            <i class="icon f7-icons color-red" style="font-size: 3em;">lock_circle_fill</i>
+                                        </div>
+                                        <div class="item-inner">
+                                            <div class="item-title">Atividade protegida</div>
+                                            <div class="item-text">Você precisa de senhar para avançar.</div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="list no-hairlines-md">
+                            <ul>
+                            <li class="item-content item-input item-input-with-info">
+                                <div class="item-inner">
+                                    <div class="item-title item-label">Qual senha de acessso?</div>
+                                    <div class="item-input-wrap">
+                                        <input type="text" name="password" id="viewer-password" placeholder="Ex. minhasenha" required validate>
+                                        <span class="input-clear-button"></span>
+                                        <div class="item-input-info"></div>
+                                    </div>
+                                </div>
+                            </li>
+                            </ul>
+                        </div>
+                        <div class="block display-flex flex-direction-column justify-content-center align-content-space-around">
+                            <a class="button button-fill button-large margin-top color-red" @click="checkPassword"><i class="icon f7-icons size-14">lock_circle</i> Avançar</a>
+                        </div>
+                    {{else}}
+                        <div class="block display-flex flex-direction-column justify-content-center align-content-space-around">
+                            <a class="button button-fill button-large margin-top" @click="continue">Continuar</a>
+                        </div>
+                    {{/if}}
                 </div>
             {{/if}}
         </div>
@@ -104,6 +158,7 @@
 
 <script>
     import Abalytics from '../js/abalytics.js';
+    import $$ from 'dom7';
 
     function isValidStep(step) {
         return parseInt(step) >= 0;
@@ -135,6 +190,16 @@
 
         return 'Não há informações de resultado para as respostas que você escolheu: ' + hash;
     }
+
+    function getActivityPassowrd(app, activity) {
+        if(app.data.activities[activity] == undefined) {
+            return null;
+        }
+
+        var activityData = app.data.activities[activity];
+        return activityData[0].password;
+    }
+
 
     function getActivitySpecs(app, activity) {
         var data = {
@@ -200,12 +265,22 @@
                 show_welcome: false,
                 show_results: false,
                 results_text: '',
+                must_input_password: false,
+                password_ready: false
             };
 
             var specs = getActivitySpecs(app, activity);
 
             if(specs == null) {
                 console.error('invalid specs: ', specs);
+            }
+
+            var activityPassword = getActivityPassowrd(app, activity);
+
+            if(activityPassword) {
+                var storedData = app.form.getFormData('password');
+                data.must_input_password = storedData != activityPassword;
+                data.password_ready = !data.must_input_password;
             }
 
             data.title = specs.title;
@@ -227,6 +302,27 @@
         },
 
         methods: {
+            checkPassword: function() {
+                var app = this.$app;
+                var activity = this.$route.params.activity;
+                var informedPassword = $$('#viewer-password').val();
+                var activityPassword = getActivityPassowrd(app, activity);
+
+                if(informedPassword != activityPassword) {
+                    this.$app.dialog.alert("A senha informada é incorreta. Tente outra senha.", "Nops");
+                    return;
+                }
+
+                app.form.storeFormData('password', informedPassword);
+
+                app.toast.create({
+                    text: 'Atividade liberada!',
+                    closeTimeout: 2000,
+                }).open();
+
+                this.continue();
+            },
+
             continue: function() {
                 var app = this.$app;
                 var step = this.$route.params.step;
