@@ -177,6 +177,15 @@
                     {{/if}}
                 </div>
             {{/if}}
+
+            {{#if debug}}
+                <div class="block block-strong">
+                    <h3>Debug</h3>
+                    <pre>score: {{ score }}</pre>
+                    <pre>step: {{ step }}</pre>
+                    <pre>settings: {{ settings }}</pre>
+                </div>
+            {{/if}}
         </div>
     </div>
 </template>
@@ -235,6 +244,7 @@
             description: '?',
             no_back: false,
             score: false,
+            settings: '',
             steps: {},
             results: {},
         };
@@ -252,6 +262,7 @@
                 data.title = item.value;
                 data.description = item.desc;
                 data.no_back = item.settings && item.settings.indexOf('no_back') != -1;
+                data.settings = item.settings || '';
             }
 
             if(item.type == 'result') {
@@ -304,15 +315,18 @@
                 allow_back: true,
                 results_text: '',
                 must_input_password: false,
-                password_ready: false
+                password_ready: false,
+                debug: app.data.debug
             };
 
             var specs = getActivitySpecs(app, activity);
 
             if(specs == null) {
                 console.error('invalid specs: ', specs);
+                return {};
             }
 
+            data.settings = specs.settings;
             data.has_score = specs.score;
 
             var activityPassword = getActivityPassword(app, activity);

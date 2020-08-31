@@ -38,6 +38,7 @@ var app = new Framework7({
         activities: {}, // loaded from the API
         answers: [],    
         score: 0,
+        debug: false
     },
 
     // Input settings
@@ -58,6 +59,8 @@ var app = new Framework7({
                 // Init cordova APIs (see cordova-app.js)
                 cordovaApp.init(f7);
             }
+
+            f7.data.debug = f7.form.getFormData('debug');
 
             Abalytics.init(f7);
             DataProvider.init(f7);

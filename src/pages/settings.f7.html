@@ -39,11 +39,23 @@
                     <div class="item-inner">
                       <div class="item-title item-label">Nome</div>
                       <div class="item-input-wrap">
-                        <input type="text" name="user" id="settings-user" placeholder="Ex. Fulano da Silva" required validate>
+                        <input type="text" name="user" id="settings-user" placeholder="Ex. Fulano da Silva" value="{{ user }}" required validate>
                         <span class="input-clear-button"></span>
                         <div class="item-input-info">Sem essa informação, você <strong>não</strong> será avaliado.</div>
                       </div>
                     </div>
+                  </li>
+                </ul>
+            </div>
+
+            <div class="list simple-list">
+                <ul>
+                  <li>
+                    <span>Modo debug</span>
+                    <label class="toggle toggle-init color-green" id="settings-debug">
+                      <input type="checkbox" name="debug" {{#if debug }} checked {{/if}}>
+                      <span class="toggle-icon"></span>
+                    </label>
                   </li>
                 </ul>
             </div>
@@ -64,10 +76,24 @@
     import Abalytics from '../js/abalytics.js';
 
     export default {
+        data: function() {
+            var app = this.$app;
+            var storedData = Abalytics.getStoredData();
+
+            var data = {
+                debug: app.data.debug,
+                user: storedData.user
+            };
+            
+            return data;
+        },
         methods: {
             save: function() {
                 var app = this.$app;
                 var user = $$('#settings-user').val();
+                var debugToggle = app.toggle.get('#settings-debug');
+
+                app.data.debug = debugToggle.checked;
 
                 if(!user) {
                     this.$app.dialog.alert("Infelizmente seu nome não pode ser vazio. Dê seu ar da graça, vai?", "Oops!");
@@ -75,6 +101,7 @@
                 }
 
                 Abalytics.storeData('user', user);
+                app.form.storeFormData('debug', app.data.debug);
 
                 app.toast.create({
                     text: 'Ok, dados salvos!',
