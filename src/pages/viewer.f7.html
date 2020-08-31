@@ -4,10 +4,17 @@
             <div class="navbar-bg"></div>
             <div class="navbar-inner sliding">
                 <div class="left">
-                    <a href="#" class="link back">
-                        <i class="icon icon-back"></i>
-                        <span class="if-not-md">Back</span>
-                    </a>
+                    {{#if allow_back}}
+                        <a href="#" class="link back">
+                            <i class="icon icon-back"></i>
+                            <span class="if-not-md">Voltar</span>
+                        </a>
+                    {{else}}
+                        <a href="#" class="link" @click="alertNoBack">
+                            <i class="icon icon-back color-red"></i>
+                            <i class="icon f7-icons size-14 color-red">lock</i>
+                        </a>
+                    {{/if}}
                 </div>
                 <div class="title-row">
                     <div class="col-100">
@@ -205,6 +212,7 @@
         var data = {
             title: '?',
             description: '?',
+            no_back: false,
             steps: {},
             results: {},
         };
@@ -221,6 +229,7 @@
                 // Convention that item in step 0 describes the whole thing
                 data.title = item.value;
                 data.description = item.desc;
+                data.no_back = item.no_back;
             }
 
             if(item.type == 'result') {
@@ -264,6 +273,7 @@
                 options: [],
                 show_welcome: false,
                 show_results: false,
+                allow_back: true,
                 results_text: '',
                 must_input_password: false,
                 password_ready: false
@@ -297,6 +307,11 @@
             }
 
             data.show_welcome = step == 0;
+
+            // Activity disallows the use of back button
+            if(!data.show_welcome && specs.no_back) {
+                data.allow_back = false;
+            }
 
             return data;
         },
@@ -367,6 +382,10 @@
                 } catch(error) {
                     this.$app.dialog.alert("O próximo passo informado para essa atividade não é valido. Precisa ser um número inteiro maior que zero.", "Deu ruim");
                 }
+            },
+
+            alertNoBack: function() {
+                this.$app.dialog.alert("Essa atividade não permite que você volte passos.", "Não há volta");
             },
         },
 
