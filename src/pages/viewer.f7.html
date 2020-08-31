@@ -177,6 +177,9 @@
 
         // Ignore step == 0 (welcome step)
         for(var step = 1; step < answers.length; step++) {
+            if(!answers[step]) {
+                continue;
+            }
             parts.push(step + '-' + answers[step].join('-'));
         }
 
