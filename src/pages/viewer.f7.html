@@ -33,6 +33,24 @@
                     <p class="item-text" style="text-align: justify;">{{ results_text }}</p>
                 </div>
 
+                {{#if has_score}}
+                    <div class="list about-list media-list">
+                        <ul>
+                            <li>
+                                <div class="item-content">
+                                    <div class="item-media">
+                                        <i class="icon f7-icons color-green" style="font-size: 3em;">checkmark_seal_fill</i>
+                                    </div>
+                                    <div class="item-inner">
+                                        <div class="item-title">Pontuação</div>
+                                        <div class="item-text">Você fez um total de <strong>{{ score }}</strong> pontos.</div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                {{/if}}
+
                 <div class="block display-flex flex-direction-column justify-content-center align-content-space-around">
                     <a href="/" class="button button-fill button-large margin-top">Finalizar</a>
                 </div>
@@ -88,7 +106,7 @@
                         {{#each options}}
                         <li>
                             <label class="item-checkbox item-content">
-                                <input type="checkbox" name="option-{{ value }}" value="{{ value }}" data-next-step="{{ next_step }}" />
+                                <input type="checkbox" name="option-{{ value }}" value="{{ value }}" data-next-step="{{ next_step }}" data-score="{{ score }}" />
                                 <i class="icon icon-checkbox"></i>
                                 <div class="item-inner">
                                     <div class="item-text quiz__text">
@@ -216,6 +234,7 @@
             title: '?',
             description: '?',
             no_back: false,
+            score: false,
             steps: {},
             results: {},
         };
@@ -253,6 +272,10 @@
 
             if(item.type == 'op') {
                 data.steps[item.step].options.push(item);
+                
+                if(item.score) {
+                    data.score = true;
+                }
 
             } else {
                 data.steps[item.step].items.push(item);
@@ -276,6 +299,8 @@
                 options: [],
                 show_welcome: false,
                 show_results: false,
+                has_score: false,
+                score: app.data.score,
                 allow_back: true,
                 results_text: '',
                 must_input_password: false,
@@ -287,6 +312,8 @@
             if(specs == null) {
                 console.error('invalid specs: ', specs);
             }
+
+            data.has_score = specs.score;
 
             var activityPassword = getActivityPassword(app, activity);
 
@@ -373,6 +400,10 @@
                         if(item.dataset.nextStep) {
                             nextStep = parseInt(item.dataset.nextStep);
                         }
+
+                        if(item.dataset.score) {
+                            app.data.score += parseInt(item.dataset.score);
+                        }
                     });
 
                     if(nextStep > 0) {
@@ -383,7 +414,7 @@
                     
                     this.$router.navigate("/viewer/" + activity + "/" + step);
                 } catch(error) {
-                    this.$app.dialog.alert("O próximo passo informado para essa atividade não é valido. Precisa ser um número inteiro maior que zero.", "Deu ruim");
+                    this.$app.dialog.alert("Algum dado desse passo não é valido. Verifique se as colunas contem valores corretos.", "Deu ruim");
                 }
             },
 
@@ -408,6 +439,7 @@
 
                 if(step == 0) {
                     app.data.answers = [];
+                    app.data.score = 0;
                     console.log('Starting activity: ', activity);
                 }
             }
