@@ -26,7 +26,7 @@ Here you can place screenshots of the project. Also describe your features using
 Usually the first step to get started is to install dependencies to run the project. Run:
 
 ```
-apt get install dependency
+nvm use 8.10
 ```
 
 It is recommended to place each command on a different line:
